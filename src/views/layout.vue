@@ -1,0 +1,185 @@
+<script setup>
+import {
+  Management,
+  Promotion,
+  UserFilled,
+  User,
+  Crop,
+  EditPen,
+  SwitchButton,
+  CaretBottom, Clock, ChatDotRound, Discount
+} from '@element-plus/icons-vue'
+import avatar from '@/assets/default.png'
+import {useTokenStore} from "@/stores/token.js";
+import {useRouter} from "vue-router";
+import {ElMessage} from "element-plus";
+
+const router = useRouter()
+const tokenStore = useTokenStore()
+const name = useTokenStore().getData().email
+const logout = async () => {
+  tokenStore.removeToken()
+  await router.push('/login')
+  ElMessage.success('退出成功')
+}
+</script>
+
+<template>
+  <el-container class="layout-container">
+    <!-- 左侧菜单 -->
+    <el-aside width="400px">
+      <div class="el-aside__logo"></div>
+      <el-menu active-text-color="#d9ead3" background-color="#7e9d5e"  text-color="#CEC7B2FF"
+               router>
+        <el-menu-item index="/canteenmanage">
+          <el-icon>
+            <Management />
+          </el-icon>
+          <span>食堂管理</span>
+        </el-menu-item>
+        <el-sub-menu >
+          <template #title>
+            <el-icon>
+              <UserFilled />
+            </el-icon>
+            <span>菜品预约</span>
+          </template>
+          <el-menu-item index="/ordermanage">
+            <el-icon>
+              <EditPen />
+            </el-icon>
+            <span>预约管理</span>
+          </el-menu-item>
+          <el-menu-item index="/orderinfo">
+            <el-icon>
+              <EditPen />
+            </el-icon>
+            <span>购买记录</span>
+          </el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="/dishmanage">
+          <el-icon>
+            <discount />
+          </el-icon>
+          <span>菜品管理</span>
+        </el-menu-item>
+        <el-sub-menu >
+          <template #title="room">
+            <el-icon>
+              <UserFilled />
+            </el-icon>
+            <span>包厢预约</span>
+          </template>
+          <el-menu-item index="/roommanage">
+            <el-icon>
+              <EditPen />
+            </el-icon>
+            <span>预约管理</span>
+          </el-menu-item>
+          <el-menu-item index="/roominfo">
+            <el-icon>
+              <EditPen />
+            </el-icon>
+            <span>预约记录</span>
+          </el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="/commentmanage">
+          <el-icon>
+            <Management />
+          </el-icon>
+          <span>评论管理</span>
+        </el-menu-item>
+        <el-sub-menu >
+          <template #title>
+            <el-icon>
+              <UserFilled />
+            </el-icon>
+            <span>个人中心</span>
+          </template>
+          <el-menu-item index="/repassword">
+            <el-icon>
+              <EditPen />
+            </el-icon>
+            <span>修改密码</span>
+          </el-menu-item>
+        </el-sub-menu>
+      </el-menu>
+    </el-aside>
+    <!-- 右侧主区域 -->
+    <el-container>
+      <!-- 头部区域 -->
+      <el-header>
+        <div>用户：<strong>{{name}}</strong></div>
+        <el-dropdown placement="bottom-end">
+                        <span class="el-dropdown__box">
+                            <el-avatar :src="avatar" />
+                            <el-icon>
+                                <CaretBottom />
+                            </el-icon>
+                        </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="profile" :icon="User">修改密码</el-dropdown-item>
+              <el-dropdown-item command="logout" :icon="SwitchButton" @click ="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </el-header>
+      <!-- 中间区域 -->
+      <el-main>
+          <router-view ></router-view>
+      </el-main>
+      <!-- 底部区域 -->
+      <el-footer>食堂预定系统 ©2024 Created by Würger</el-footer>
+    </el-container>
+  </el-container>
+</template>
+
+<style lang="scss" scoped>
+.layout-container {
+  height: 100vh;
+
+  .el-aside {
+    background-color: #7e9d5e;
+
+    &__logo {
+      height: 120px;
+      background: url('@/assets/hit.png') no-repeat center / 120px auto;
+    }
+
+    .el-menu {
+      border-right: none;
+    }
+  }
+
+  .el-header {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .el-dropdown__box {
+      display: flex;
+      align-items: center;
+
+      .el-icon {
+        color: #999;
+        margin-left: 10px;
+      }
+
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .el-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #666;
+  }
+}
+</style>
