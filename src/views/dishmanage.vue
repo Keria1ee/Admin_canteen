@@ -21,6 +21,7 @@ import {
   searchNameService
 } from "@/api/dishmanage.js";
 import {orderStockService} from "@/api/ordermanage.js";
+import {useTokenStore} from "@/stores/token.js";
 
 const dishData=ref([]);
 const state = ref('');
@@ -318,6 +319,17 @@ const deleteDish = (row) => {
       })
 }
 
+const adddishuploadSuccess = (response) => {
+  addModel.value.image = response.data;
+}
+
+const updatimguploadSuccess = (response) => {
+  imageModel.value.image = response.data;
+}
+const updatedishuploadSuccess = (response) => {
+  editModel.value.image = response.data;
+}
+
 onMounted(()=>{
   dishList();
 
@@ -390,6 +402,16 @@ onMounted(()=>{
           <el-input v-model="addModel.dishname" minlength="1" maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="菜品图片" prop="image">
+          <el-upload
+              action="/api/file/upload"
+              :onSuccess="adddishuploadSuccess"
+              :show-file-list="false"
+              :auto-upload="true"
+              name="file"
+              :headers="{'token':useTokenStore().getToken()}"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
           <el-input v-model="addModel.image" minlength="1" maxlength="15"></el-input>
         </el-form-item>
         <el-form-item label="菜品价格" prop="price">
@@ -448,6 +470,16 @@ onMounted(()=>{
     <!-- 更新菜品图片弹窗 -->
     <el-dialog v-model="imageVisible" title="更新图片" width="30%">
       <el-form :model="imageModel" :rules="rules_image" label-width="100px" style="padding-right: 30px">
+        <el-upload
+            action="/api/file/upload"
+            :onSuccess="updatimguploadSuccess"
+            :show-file-list="false"
+            :auto-upload="true"
+            name="file"
+            :headers="{'token':useTokenStore().getToken()}"
+        >
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
         <el-form-item label="菜品图片" prop="image">
           <el-input v-model="imageModel.image" minlength="1" maxlength="500"></el-input>
         </el-form-item>
@@ -483,6 +515,16 @@ onMounted(()=>{
           <el-input v-model="editModel.describe" minlength="1" maxlength="500"></el-input>
         </el-form-item>
         <el-form-item label="菜品图片" prop="image">
+            <el-upload
+                action="/api/file/upload"
+                :onSuccess="updatedishuploadSuccess"
+                :show-file-list="false"
+                :auto-upload="true"
+                name="file"
+                :headers="{'token':useTokenStore().getToken()}"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
           <el-input v-model="editModel.image" minlength="1" maxlength="500"></el-input>
         </el-form-item>
         <el-form-item label="菜品热量" prop="extend">

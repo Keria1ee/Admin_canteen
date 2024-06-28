@@ -5,6 +5,8 @@ import {fileURLToPath,URL} from 'url';
 export default defineConfig({
   plugins: [vue()],
   server: {
+    port: 5174,
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: 'http://192.144.200.148:8080',

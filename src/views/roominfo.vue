@@ -29,7 +29,7 @@ onMounted(()=>{
       <el-table-column label="预约位置" prop="name"></el-table-column>
       <el-table-column label="预约开始" prop="startTime"></el-table-column>
       <el-table-column label="预约结束" prop="endTime"></el-table-column>
-
+      <el-table-column label="预约编码" prop="code"></el-table-column>
       <template #empty>
         <el-empty description="没有数据" />
       </template>
