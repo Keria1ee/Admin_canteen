@@ -57,7 +57,6 @@ const login = async () => {
         ElMessage.success('登录成功');
         tokenStore.setToken(result.token);
         tokenStore.setData(result.data);
-        console.log(result.data)
         await router.push('/canteenmanage');
       } else {
         ElMessage.error('登录失败');

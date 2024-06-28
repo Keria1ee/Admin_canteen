@@ -20,7 +20,7 @@ import {useTokenStore} from "@/stores/token.js";
 const routes = [
     {path: '/login', component: login},
     {path: '/',
-        component: layout,redirect: '/canteenmanage',
+        component: layout,redirect: '/login',
         children: [
             {path: '/roommanage', component: roommanage},
             {path: '/roominfo', component: roominfo},
